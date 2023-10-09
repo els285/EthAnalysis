@@ -1,0 +1,16 @@
+ROOT_files: 
+- /eos/atlas/atlascerngroupdisk/phys-top/toppropertiesandmass/ttbar-spin/ProductionSymLinks/SymLinks/410472/MC16a/group.phys-top.34373418._000050.out.root
+- /eos/atlas/atlascerngroupdisk/phys-top/toppropertiesandmass/ttbar-spin/ProductionSymLinks/SymLinks/410472/MC16a/group.phys-top.34373418._000041.out.root
+tree_name: nominal
+Observables:
+- reco_cosphi
+- reco_lep_pt
+- reco_lep_eta 
+Selections:
+    SignalRegion:
+        - reco_ttbar_m > 340
+        - reco_ttbar_m < 380
+    Validation1:
+        - reco_ttbar_m > 380
+        - reco_ttbar_m < 500
+
