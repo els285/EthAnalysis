@@ -1,5 +1,6 @@
 from ROOT import RDataFrame,TFile, EnableImplicitMT
 import yaml,os 
+import numpy as np
 
 EnableImplicitMT()
 class Frame(object):
@@ -64,10 +65,27 @@ class Frame(object):
 
     def make_histograms(self):
 
+        """
+        Projects histograms out of RDataFrame, with user-specified binning
+        """
+
         for sel,df in self.filtered_dfs.items():
             self.histograms[sel] = {}
-            for obs in self.observables:
-                self.histograms[sel][obs] = df.Histo1D(obs)
+            for obs,bin_input in self.observables.items():
+                if isinstance(bin_input,list):
+                    bin_data = (obs,obs,len(bin_input)-1,np.asarray(bin_input,dtype="float64"))
+                    self.histograms[sel][obs] = df.Histo1D(bin_data,obs)
+
+                elif not bin_input:
+                    self.histograms[sel][obs] = df.Histo1D(obs)
+
+                else:
+                    bin_data = bin_input.split(",")
+                    if len(bin_data) != 3:
+                        raise ValueError(f"The specified binning {bin_input} for {obs} is not of corretc format")
+                    bin_data = (obs,obs,int(bin_data[0]),float(bin_data[1]),float(bin_data[2]))
+                    self.histograms[sel][obs] = df.Histo1D(bin_data,obs)
+
 
         for sel_histograms in self.histograms.values():
             for hist in sel_histograms.values():
@@ -82,12 +100,14 @@ class Frame(object):
         """
 
         for sel,hist_dic in self.histograms.items():
-            outfile = TFile(f"{save_path}/{sel}.root","RECREATE")
+            try:
+                outfile = TFile(f"{save_path}/{sel}.root","RECREATE")
+            except not os.path.isdir(save_path):
+                raise FileNotFoundError(f"The directory {save_path} does not exist")
             outfile.cd()
             for hist in hist_dic.values():
                 hist.Write()
             outfile.Close()
-
 
 
 def drive(config:str):
@@ -95,4 +115,3 @@ def drive(config:str):
     F.apply_cuts()
     F.make_histograms()
     F.save_histograms()
-
