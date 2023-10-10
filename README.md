@@ -1,5 +1,10 @@
 # EthAnalysis
-ROOT-based histogramming package
+ROOT-based histogramming package.
+
+Specify ROOT files, branches and selections in a .yml config file and create histograms through
+```bash
+python3 -m EthAnalysis.make_hists <config_file>
+```
 
 ## Installation
 Requires ROOT 
