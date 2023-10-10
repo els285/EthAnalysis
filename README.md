@@ -1,6 +1,14 @@
 # EthAnalysis
 ROOT-based histogramming package
 
+## Installation
+Requires ROOT 
+
+Install through `pip`:
+```bash
+python3 -m pip install 
+```
+
 ## Example Config
 ```yaml
 ROOT_files: 
