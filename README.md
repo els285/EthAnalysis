@@ -1,6 +1,8 @@
 # EthAnalysis
 ROOT-based histogramming package.
 
+Designed to take flat NTuples and return ROOT TH1 histograms.
+
 Specify ROOT files, branches and selections in a .yml config file and create histograms through
 ```bash
 python3 -m EthAnalysis.make_hists <config_file>
@@ -32,3 +34,6 @@ Selections:
         - reco_ttbar_m > 380
         - reco_ttbar_m < 500
 ```
+
+## Plotting 
+Plotting is handled in the `heptools` package.
