@@ -6,7 +6,7 @@ Requires ROOT
 
 Install through `pip`:
 ```bash
-python3 -m pip install 
+python3 -m pip install git+https://github.com/els285/EthAnalysis
 ```
 
 ## Example Config
